@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Search book</title>
+</head>
+<body>
+
+<form th:action="@{/books/search}"  th:method="POST">
+    <label for="query">Enter a search term: </label>
+    <input type="text" th:value="${searchTerm}" id="query" name="searchTerm"/>
+    <br/>
+    <input type="submit" value="Search!" />
+</form>
+
+<br/>
+
+<input type="button" onclick="history.back();" value="Back"/>
+
+<br/>
+
+<form action="/">
+    <button>Home</button>
+</form>
+
+<br/>
+
+<hr/>
+
+<div>
+    <div th:if="${searchResults != null}">
+        <div th:if="${searchResults.isEmpty()}">
+            <p>No books fiend.</p>
+        </div>
+        <div th:unless="${searchResults.isEmpty()}">
+            <table th:each="book : ${searchResults}">
+                <a th:href="@{/books/{id}(id=${book.getId()})}"
+                   th:text="${book.getBookName() + ', ' + book.getAuthor() + ', ' + book.getYearOfPublication()}">book</a>
+
+                <tr th:unless="${book.getOwner() == null}">
+                    <td th:text="${book.getOwner().getName()}">Name person</td>
+                    <td> has the book</td>
+                </tr>
+                <tr th:if="${book.getOwner() == null}">
+                    <td>This book is free.</td>
+                </tr>
+            </table>
+            <br/>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

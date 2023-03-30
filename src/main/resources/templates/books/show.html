@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Show</title>
+
+    <style>
+        .leftstr, .rightstr {
+            float: left; /* Обтекание справа */
+        }
+    </style>
+</head>
+<body>
+<p th:text="${'Name: ' + book.getBookName() + ', ' + book.getAuthor()}">VALUE</p>
+<p th:text="${'Year: ' + book.getYearOfPublication()}">VALUE</p>
+<p th:text="${'Id:   ' + book.getId()}">VALUE</p>
+
+<div th:if="${namePerson == null}">
+    <p>This book is free. who should it be assigned to?</p>
+    <br/>
+    <form th:method="PATCH" th:action="@{/books/{id}/add(id=${book.getId()})}">
+        <label for="person"> Select person </label>
+
+        <select th:object="${person}" th:field="*{id}" id="person">
+            <option th:each="person : ${people}"
+                    th:value="${person.getId()}"
+                    th:text="${person.getName()}">
+                значение value отправляется на сервер, а text виден пользователю
+            </option>
+        </select>
+        <input type="submit" value="Assign a book" />
+    </form>
+</div>
+<!--<p>has the book</p>-->
+<div th:unless="${namePerson == null}">
+    <span th:text="${namePerson.getName()}">Name person</span>
+    <span> has the book</span>
+    <div style="clear: left"></div>
+
+    <br/>
+
+    <form th:method="GET" th:action="@{/books/{id}/return(id=${book.getId()})}">
+        <button>Return the book</button>
+    </form>
+</div>
+
+<br/>
+<hr/>
+
+<a th:href="@{/books/{id}/edit(id=${book.getId()})}">Edit</a>
+
+<form th:method="DELETE" th:action="@{/books/{id}(id=${book.getId()})}">
+    <input type="submit" value="Delete"/>
+</form>
+
+<br/>
+
+<input type="button" onclick="history.back();" value="Back"/>
+
+<br/>
+
+<form action="/">
+    <button>Home</button>
+</form>
+
+</body>
+</html>
