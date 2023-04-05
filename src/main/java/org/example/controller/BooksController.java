@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Controller
+@RestController
 @RequestMapping("/books")
 public class BooksController {
 
@@ -27,10 +27,9 @@ public class BooksController {
     }
 
     @GetMapping
-    public String index(@RequestParam(required = false) Integer page,
+    public List<Book> index(@RequestParam(required = false) Integer page,
                         @RequestParam(name = "books_per_page", required = false) Integer booksPerPage,
-                        @RequestParam(name = "sort_by_year", required = false) boolean sortByYear,
-                        Model model) {
+                        @RequestParam(name = "sort_by_year", required = false) boolean sortByYear) {
         List<Book> books;
         if (page == null && booksPerPage == null) {
             books = bookService.findAll(sortByYear);
@@ -38,81 +37,81 @@ public class BooksController {
             books = bookService.findAll(page, booksPerPage, sortByYear);
         }
 
-        model.addAttribute("books", books);
-        return "books/index";
+//        model.addAttribute("books", books);
+        return books;
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model,
+    public Book show(@PathVariable("id") int id,
                        @ModelAttribute("person") Person person) {
         Book book = bookService.findById(id);
-        model.addAttribute("book", book);
-        model.addAttribute("people", personService.findAll());
-        model.addAttribute("namePerson", book.getOwner());
+//        model.addAttribute("book", book);
+//        model.addAttribute("people", personService.findAll());
+//        model.addAttribute("namePerson", book.getOwner());
 
-        return "books/show";
+        return book;
     }
 
     @GetMapping("/new")
-    public String newBook(@ModelAttribute("book") Book book) {
-        return "books/new";
+    public void newBook(@ModelAttribute("book") Book book) {
+
     }
 
     @PostMapping()
-    public String create(@ModelAttribute("book") @Valid Book book,
+    public void create(@ModelAttribute("book") @Valid Book book,
                          BindingResult bindingResult) {
         if (bindingResult.hasErrors())
-            return "books/new";
+//            return "books/new";
 
         bookService.save(book);
-        return "redirect:/books";
+//        return "redirect:/books";
     }
 
     @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("book", bookService.findById(id));
-        return "books/edit";
+    public void edit(@PathVariable("id") int id) {
+//        model.addAttribute("book", bookService.findById(id));
+//        return "books/edit";
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult,
+    public void update(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult,
                          @PathVariable("id") int id) {
         if (bindingResult.hasErrors())
-            return "books/edit";
+//            return "books/edit";
 
         bookService.update(id, book);
-        return "redirect:/books";
+//        return "redirect:/books";
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") int id) {
+    public void delete(@PathVariable("id") int id) {
         bookService.delete(id);
-        return "redirect:/books";
+//        return "redirect:/books";
     }
 
     @PatchMapping("/{id}/add")
-    public String assignBook(@ModelAttribute("person") Person person,
+    public void assignBook(@ModelAttribute("person") Person person,
                              @PathVariable("id") int id) {
         bookService.assignBook(id, person);
-        return "redirect:/books/{id}";
+//        return "redirect:/books/{id}";
     }
 
     @GetMapping("/{id}/return")
-    public String returnBook(@PathVariable("id") int id) {
+    public void returnBook(@PathVariable("id") int id) {
         bookService.returnBook(id);
 
-        return "redirect:/books/{id}";
+//        return "redirect:/books/{id}";
     }
 
     @GetMapping("/search")
-    public String searchBook() {
-        return "books/search";
+    public void searchBook() {
+//        return "books/search";
     }
 
     @PostMapping("/search")
-    public String makeSearch(Model model, @ModelAttribute("searchTerm") String searchTerm) {
+    public void makeSearch(Model model, @ModelAttribute("searchTerm") String searchTerm) {
         model.addAttribute("searchResults", bookService.findByBookNameStartsWith(searchTerm));
 
-        return "books/search";
+//        return "books/search";
     }
 }

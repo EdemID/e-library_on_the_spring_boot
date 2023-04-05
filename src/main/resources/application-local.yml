@@ -1,3 +1,7 @@
+server:
+  servlet:
+    context-path: /e-library
+
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
@@ -11,7 +15,3 @@ spring:
         hbm2ddl:
           auto: validate
         show_sql: true
-  mvc:
-    hiddenmethod:
-      filter:
-        enabled: true
