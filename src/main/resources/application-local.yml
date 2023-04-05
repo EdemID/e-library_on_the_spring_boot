@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    password: 0
+    url: jdbc:postgresql://localhost:5432/first_db
+    username: postgres
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        hbm2ddl:
+          auto: validate
+        show_sql: true
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
