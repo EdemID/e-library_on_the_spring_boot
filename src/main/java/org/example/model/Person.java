@@ -1,11 +1,12 @@
 package org.example.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.Cascade;
 
-import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
@@ -29,6 +30,7 @@ public class Person {
 
     @OneToMany(mappedBy = "owner")
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @JsonManagedReference
     private List<Book> books;
 
     public Person() {

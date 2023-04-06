@@ -1,7 +1,6 @@
 package org.example.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,8 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class MainController {
 
     @GetMapping
-    public void home() {
-//        model.addAttribute("title", "Main page");
-//        return "home";
+    public ResponseEntity<String[]> home() {
+        return ResponseEntity.ok(new String[]{
+                "http://localhost:8080/e-library/books",
+                "http://localhost:8080/e-library/people"
+        });
     }
 }
