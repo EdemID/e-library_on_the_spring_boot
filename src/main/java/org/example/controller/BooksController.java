@@ -2,7 +2,6 @@ package org.example.controller;
 
 import jakarta.validation.Valid;
 import org.example.dto.BookDto;
-import org.example.model.Book;
 import org.example.serviece.BookService;
 import org.example.serviece.PeopleService;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +11,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/books")
-// получать DTO
 public class BooksController {
 
     private final BookService bookService;
@@ -37,14 +35,13 @@ public class BooksController {
         return bookService.findById(id);
     }
 
-    // TODO: Вернуть id
     @PostMapping("/new")
-    public int create(@RequestBody @Valid Book book) {
+    public int create(@RequestBody @Valid BookDto book) {
         return bookService.save(book);
     }
 
     @PatchMapping("/{id}/edit")
-    public BookDto edit(@RequestBody @Valid Book book, @PathVariable("id") int id) {
+    public BookDto edit(@RequestBody @Valid BookDto book, @PathVariable("id") int id) {
         return bookService.update(id, book);
     }
 

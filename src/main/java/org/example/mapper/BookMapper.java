@@ -10,11 +10,11 @@ import java.util.stream.Collectors;
 @Component
 public class BookMapper implements CustomModelMapper {
 
-    public Book toEntity(BookDto bookDto) {
+    public Book toEntity(final BookDto bookDto) {
         return modelMapper.map(bookDto, Book.class);
     }
 
-    public BookDto toDto(Book book) {
+    public BookDto toDto(final Book book) {
         return modelMapper.map(book, BookDto.class);
     }
 

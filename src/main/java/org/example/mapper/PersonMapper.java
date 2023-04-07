@@ -10,15 +10,15 @@ import java.util.stream.Collectors;
 @Component
 public class PersonMapper implements CustomModelMapper {
 
-    public Person toEntity(PersonDto personDto) {
+    public Person toEntity(final PersonDto personDto) {
         return modelMapper.map(personDto, Person.class);
     }
 
-    public PersonDto toDto(Person person) {
+    public PersonDto toDto(final Person person) {
         return modelMapper.map(person, PersonDto.class);
     }
 
-    public List<PersonDto> toDtoList(List<Person> people) {
+    public List<PersonDto> toDtoList(final List<Person> people) {
         return people.stream().map(this::toDto).collect(Collectors.toList());
     }
 }

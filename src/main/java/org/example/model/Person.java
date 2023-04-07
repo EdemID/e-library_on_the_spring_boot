@@ -2,9 +2,6 @@ package org.example.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.Cascade;
 
 import java.util.List;
@@ -16,16 +13,12 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotEmpty(message = "Name should not be empty")
-    @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
     private String name;
 
-//    @Temporal(TemporalType.DATE)
-//    //  TODO: создать спринг-валидатор для формата даты,
-//    //  чтобы пользователю выходила красивая ошибка, если ввел неверно дату,
-//    //  иначе спринг выдает свою ошибку
+//    TODO: @Temporal(TemporalType.DATE) изменить тип переменной на Date
+//    TODO: создать спринг-валидатор для формата даты,
+//    //  чтобы пользователю выходила красивая ошибка, если ввел неверно дату, иначе спринг выдает свою ошибку
 //    @DateTimeFormat(pattern = "dd/MM/yyyy") // дд/мм/гггг
-    @Min(value = 0, message = "Age should be greater than 0")
     private int age;
 
     @OneToMany(mappedBy = "owner")

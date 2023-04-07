@@ -1,15 +1,27 @@
 package org.example.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
 import org.example.model.Person;
 
 import java.util.Date;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BookDto {
 
+    @NotEmpty(message = "Name should not be empty")
     private String bookName;
+
+    @NotEmpty(message = "Author should not be empty")
     private String author;
+
     private int yearOfPublication;
+
+    @Schema(hidden = true)
     private Date takenAt;
+
+    @Schema(hidden = true)
     private Person owner;
 
     public String getBookName() {

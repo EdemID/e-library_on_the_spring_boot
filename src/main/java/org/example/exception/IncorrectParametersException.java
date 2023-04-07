@@ -2,7 +2,7 @@ package org.example.exception;
 
 public class IncorrectParametersException extends RuntimeException {
 
-    public IncorrectParametersException(String message) {
+    public IncorrectParametersException(final String message) {
         super(message);
     }
 }

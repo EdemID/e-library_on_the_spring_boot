@@ -68,28 +68,30 @@ public class BookService {
     }
 
     @Transactional
-    public int save(final Book book) {
+    public int save(final BookDto bookDto) {
+        Book book = bookMapper.toEntity(bookDto);
         repository.save(book);
-
+        // по сути id у book == 0, однако getId() вернет id, так как запрос его в рамках транзакции
         return book.getId();
     }
 
     @Transactional
-    public BookDto update(final int id, final Book updatedBook) {
-        Book bookToBeUpdated = repository.findById(id).get();
+    public BookDto update(final int id, final BookDto updatedBook) {
+        Book bookToBeUpdated = bookMapper.toEntity(updatedBook);
 
-        updatedBook.setId(id);
-        updatedBook.setOwner(bookToBeUpdated.getOwner()); // чтобы не терялась связь при обновлении
-        return bookMapper.toDto(repository.save(updatedBook));
+        bookToBeUpdated.setId(id);
+        bookToBeUpdated.setOwner(bookToBeUpdated.getOwner()); // чтобы не терялась связь при обновлении
+
+        return bookMapper.toDto(repository.save(bookToBeUpdated));
     }
 
     @Transactional
-    public void delete(int id) {
+    public void delete(final int id) {
         repository.deleteById(id);
     }
 
     @Transactional
-    public BookDto assign(int bookId, int personId) {
+    public BookDto assign(final int bookId, final int personId) {
         BookDto dto = findById(bookId);
 
         dto.setOwner(peopleService.findById(personId));
@@ -97,13 +99,13 @@ public class BookService {
 
         Book entity = bookMapper.toEntity(dto);
         entity.setId(bookId);
-        save(entity);
+        repository.save(entity);
 
         return dto;
     }
 
     @Transactional
-    public BookDto returnBook(int id) {
+    public BookDto returnBook(final int id) {
         Book book = repository.findById(id).orElseThrow(() -> new BookNotFoundException(id));
         book.setOwner(null);
         book.setTakenAt(null);

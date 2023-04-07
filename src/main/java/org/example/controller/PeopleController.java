@@ -31,12 +31,12 @@ public class PeopleController {
     }
 
     @PostMapping("/new")
-    public int create(@RequestBody @Valid Person person) {
+    public int create(@RequestBody @Valid PersonDto person) {
         return personService.save(person);
     }
 
     @PatchMapping("/{id}/edit")
-    public PersonDto edit(@RequestBody @Valid Person person, @PathVariable("id") int id) {
+    public PersonDto edit(@RequestBody @Valid PersonDto person, @PathVariable("id") int id) {
         return personService.update(id, person);
     }
 

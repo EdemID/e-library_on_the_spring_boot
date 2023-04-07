@@ -2,11 +2,11 @@ package org.example.exception;
 
 public class BookNotFoundException extends RuntimeException {
 
-    public BookNotFoundException(int id) {
+    public BookNotFoundException(final int id) {
         super(String.format("Book with id=%s not found", id));
     }
 
-    public BookNotFoundException(String message) {
+    public BookNotFoundException(final String message) {
         super(message);
     }
 }

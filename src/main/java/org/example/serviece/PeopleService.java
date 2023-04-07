@@ -35,7 +35,7 @@ public class PeopleService {
         return repository.findById(id).orElseThrow(() -> new PersonNotFoundException(id));
     }
 
-    public Person findByIdWithBooks(int id) {
+    public Person findByIdWithBooks(final int id) {
         Person person = findById(id);
         Hibernate.initialize(person.getBooks()); // для подзагрузки книг. необязательно,
         // т.к. книги точно будут подзагружены - получение person и books в одной транзакции
@@ -47,23 +47,27 @@ public class PeopleService {
     }
 
     @Transactional
-    public int save(Person person) {
-        repository.save(person);
-        return person.getId();
+    public int save(final PersonDto person) {
+        Person entity = mapper.toEntity(person);
+        repository.save(entity);
+
+        return entity.getId();
     }
 
     @Transactional
-    public PersonDto update(int id, Person updatedPerson) {
-        updatedPerson.setId(id);
-        return mapper.toDto(repository.save(updatedPerson));
+    public PersonDto update(final int id, final PersonDto updatedPerson) {
+        Person personToBeUpdated = mapper.toEntity(updatedPerson);
+        personToBeUpdated.setId(id);
+
+        return mapper.toDto(repository.save(personToBeUpdated));
     }
 
     @Transactional
-    public void delete(int id) {
+    public void delete(final int id) {
         repository.deleteById(id);
     }
 
-    public List<Person> findByName(String name) {
+    public List<Person> findByName(final String name) {
         return repository.findByName(name);
     }
 

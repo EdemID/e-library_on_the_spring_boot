@@ -2,7 +2,6 @@ package org.example.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
 import java.util.Date;
@@ -15,11 +14,9 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotEmpty(message = "Name should not be empty")
     @Column(name = "name")
     private String bookName;
 
-    @NotEmpty(message = "Author should not be empty")
     @Size(min = 1, message = "Name must be at least 2 character")
     private String author;
 
