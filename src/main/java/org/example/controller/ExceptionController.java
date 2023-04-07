@@ -1,5 +1,7 @@
 package org.example.controller;
 
+import org.example.exception.BookNotFoundException;
+import org.example.exception.PersonNotFoundException;
 import org.postgresql.util.PSQLException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +14,13 @@ public class ExceptionController {
     @ExceptionHandler(value = PSQLException.class)
     public ResponseEntity<Response> handleDeleteEntityException(PSQLException e) {
         Response response = new Response(e.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(value = {BookNotFoundException.class, PersonNotFoundException.class})
+    public ResponseEntity<Response> handleDeleteEntityException(RuntimeException e) {
+        Response response = new Response(e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     static class Response {

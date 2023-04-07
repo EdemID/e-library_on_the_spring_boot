@@ -6,19 +6,16 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Date;
-import java.util.List;
 
 public class Examine {
 
-    public static void delayInReturningBook(List<Book> books) {
+    public static void bookExpire(final Book book) {
         LocalDateTime tenDaysAgo = LocalDateTime.now().minusDays(10);
         ZonedDateTime zdt = tenDaysAgo.atZone(ZoneId.systemDefault());
         Date output = Date.from(zdt.toInstant());
 
-        for (Book book : books) {
-            if (book.getTookAt().before(output)) {
-                book.setExpired(true);
-            }
+        if (book.getTakenAt().before(output)) {
+            book.setExpired(true);
         }
     }
 }

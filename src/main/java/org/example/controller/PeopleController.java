@@ -31,13 +31,13 @@ public class PeopleController {
     }
 
     @PostMapping("/new")
-    public void create(@RequestBody @Valid Person person) {
-        personService.save(person);
+    public int create(@RequestBody @Valid Person person) {
+        return personService.save(person);
     }
 
     @PatchMapping("/{id}/edit")
-    public void edit(@PathVariable("id") int id, @Valid Person person) {
-        personService.update(id, person);
+    public PersonDto edit(@RequestBody @Valid Person person, @PathVariable("id") int id) {
+        return personService.update(id, person);
     }
 
     @DeleteMapping("/{id}")

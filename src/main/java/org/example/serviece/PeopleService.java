@@ -3,6 +3,7 @@ package org.example.serviece;
 import org.example.dto.PersonDto;
 import org.example.exception.PersonNotFoundException;
 import org.example.mapper.PersonMapper;
+import org.example.model.Book;
 import org.example.model.Person;
 import org.example.repository.PersonRepository;
 import org.example.util.Examine;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -28,9 +28,7 @@ public class PeopleService {
     }
 
     public List<PersonDto> findAll() {
-        return repository.findAll().stream()
-                .map(mapper::toDto)
-                .collect(Collectors.toList());
+        return mapper.toDtoList(repository.findAll());
     }
 
     public Person findById(final int id) {
@@ -41,19 +39,23 @@ public class PeopleService {
         Person person = findById(id);
         Hibernate.initialize(person.getBooks()); // для подзагрузки книг. необязательно,
         // т.к. книги точно будут подзагружены - получение person и books в одной транзакции
-        Examine.delayInReturningBook(person.getBooks());
+        // проверяем книги полльзователя на истекание срока
+        for (Book book : person.getBooks()) {
+            Examine.bookExpire(book);
+        }
         return person;
     }
 
     @Transactional
-    public void save(Person person) {
+    public int save(Person person) {
         repository.save(person);
+        return person.getId();
     }
 
     @Transactional
-    public Person update(int id, Person updatedPerson) {
+    public PersonDto update(int id, Person updatedPerson) {
         updatedPerson.setId(id);
-        return repository.save(updatedPerson);
+        return mapper.toDto(repository.save(updatedPerson));
     }
 
     @Transactional

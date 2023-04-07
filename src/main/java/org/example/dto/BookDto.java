@@ -9,7 +9,7 @@ public class BookDto {
     private String bookName;
     private String author;
     private int yearOfPublication;
-    private Date tookAt;
+    private Date takenAt;
     private Person owner;
 
     public String getBookName() {
@@ -36,12 +36,12 @@ public class BookDto {
         this.yearOfPublication = yearOfPublication;
     }
 
-    public Date getTookAt() {
-        return tookAt;
+    public Date getTakenAt() {
+        return takenAt;
     }
 
-    public void setTookAt(Date tookAt) {
-        this.tookAt = tookAt;
+    public void setTakenAt(Date takenAt) {
+        this.takenAt = takenAt;
     }
 
     public Person getOwner() {
