@@ -35,7 +35,7 @@ public class PeopleService {
         return repository.findById(id).orElseThrow(() -> new PersonNotFoundException(id));
     }
 
-    public Person findByIdWithBooks(final int id) {
+    public PersonDto findByIdWithBooks(final int id) {
         Person person = findById(id);
         Hibernate.initialize(person.getBooks()); // для подзагрузки книг. необязательно,
         // т.к. книги точно будут подзагружены - получение person и books в одной транзакции
@@ -43,7 +43,7 @@ public class PeopleService {
         for (Book book : person.getBooks()) {
             Examine.bookExpire(book);
         }
-        return person;
+        return mapper.toDto(person);
     }
 
     @Transactional

@@ -2,7 +2,6 @@ package org.example.controller;
 
 import jakarta.validation.Valid;
 import org.example.dto.PersonDto;
-import org.example.model.Person;
 import org.example.serviece.PeopleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +25,7 @@ public class PeopleController {
     }
 
     @GetMapping("/{id}")
-    public Person show(@PathVariable("id") int id) {
+    public PersonDto show(@PathVariable("id") int id) {
         return personService.findByIdWithBooks(id);
     }
 
