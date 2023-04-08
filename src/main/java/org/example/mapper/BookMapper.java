@@ -2,6 +2,7 @@ package org.example.mapper;
 
 import org.example.entity.Book;
 import org.example.model.BookDto;
+import org.example.util.Examine;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,8 +15,11 @@ public class BookMapper implements CustomModelMapper {
         return modelMapper.map(bookDto, Book.class);
     }
 
-    public BookDto toDto(final Book book) {
-        return modelMapper.map(book, BookDto.class);
+    public BookDto toDto(final Book entity) {
+        BookDto book = modelMapper.map(entity, BookDto.class);
+        if (book.getTakenAt() != null)
+            Examine.bookExpire(book);
+        return book;
     }
 
     public List<BookDto> toDtoLists(List<Book> books) {

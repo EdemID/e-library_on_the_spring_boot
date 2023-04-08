@@ -68,11 +68,11 @@ public class BookService {
     }
 
     @Transactional
-    public int save(final BookDto bookDto) {
-        Book book = bookMapper.toEntity(bookDto);
-        repository.save(book);
-        // по сути id у book == 0, однако getId() вернет id, так как запрос его в рамках транзакции
-        return book.getId();
+    public int save(final BookDto book) {
+        Book entity = bookMapper.toEntity(book);
+        repository.save(entity);
+        // по сути id у entity == 0, однако getId() вернет id, так как запрос его в рамках транзакции
+        return entity.getId();
     }
 
     @Transactional
@@ -106,11 +106,13 @@ public class BookService {
 
     @Transactional
     public BookDto returnBook(final int id) {
-        Book book = repository.findById(id).orElseThrow(() -> new BookNotFoundException(id));
-        book.setOwner(null);
-        book.setTakenAt(null);
+        Book entity = repository.findById(id).orElseThrow(() -> new BookNotFoundException(id));
+        entity.setOwner(null);
+        entity.setTakenAt(null);
+        
+        BookDto book = bookMapper.toDto(entity);
         book.setExpired(false);
-        return bookMapper.toDto(book);
-//  save(book); - не нужен, так как book лежит в persistence context и Hibernate знает об этом book, поэтому сам обновит сущность в бд при каждом вызове setter
+        return book;
+//  save(entity); - не нужен, так как entity лежит в persistence context и Hibernate знает об этом entity, поэтому сам обновит сущность в бд при каждом вызове setter
     }
 }

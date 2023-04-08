@@ -1,6 +1,6 @@
 package org.example.util;
 
-import org.example.entity.Book;
+import org.example.model.BookDto;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -9,7 +9,7 @@ import java.util.Date;
 
 public class Examine {
 
-    public static void bookExpire(final Book book) {
+    public static void bookExpire(final BookDto book) {
         LocalDateTime tenDaysAgo = LocalDateTime.now().minusDays(10);
         ZonedDateTime zdt = tenDaysAgo.atZone(ZoneId.systemDefault());
         Date output = Date.from(zdt.toInstant());

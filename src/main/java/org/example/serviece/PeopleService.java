@@ -1,12 +1,10 @@
 package org.example.serviece;
 
-import org.example.entity.Book;
 import org.example.entity.Person;
 import org.example.exception.PersonNotFoundException;
 import org.example.mapper.PersonMapper;
 import org.example.model.PersonDto;
 import org.example.repository.PersonRepository;
-import org.example.util.Examine;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,14 +34,10 @@ public class PeopleService {
     }
 
     public PersonDto findByIdWithBooks(final int id) {
-        Person person = findById(id);
-        Hibernate.initialize(person.getBooks()); // для подзагрузки книг. необязательно,
+        Person entity = findById(id);
+        Hibernate.initialize(entity.getBooks()); // для подзагрузки книг. необязательно,
         // т.к. книги точно будут подзагружены - получение person и books в одной транзакции
-        // проверяем книги полльзователя на истекание срока
-        for (Book book : person.getBooks()) {
-            Examine.bookExpire(book);
-        }
-        return mapper.toDto(person);
+        return mapper.toDto(entity);
     }
 
     @Transactional

@@ -24,6 +24,8 @@ public class BookDto {
     @Schema(hidden = true)
     private Person owner;
 
+    private boolean expired;
+
     public String getBookName() {
         return bookName;
     }
@@ -62,5 +64,13 @@ public class BookDto {
 
     public void setOwner(Person owner) {
         this.owner = owner;
+    }
+
+    public boolean isExpired() {
+        return expired;
+    }
+
+    public void setExpired(boolean expired) {
+        this.expired = expired;
     }
 }

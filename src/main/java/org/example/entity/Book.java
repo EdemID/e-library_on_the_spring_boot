@@ -27,9 +27,6 @@ public class Book {
     @Column(name = "book_assignment_time_to_person")
     private Date takenAt;
 
-    @Transient
-    private boolean expired;
-
     @ManyToOne
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     @JsonBackReference
@@ -89,14 +86,6 @@ public class Book {
 
     public void setTakenAt(Date bookAssignmentTimeToPerson) {
         this.takenAt = bookAssignmentTimeToPerson;
-    }
-
-    public boolean isExpired() {
-        return expired;
-    }
-
-    public void setExpired(boolean expired) {
-        this.expired = expired;
     }
 
     public void setOwner(Person owner) {

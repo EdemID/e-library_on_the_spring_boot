@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-import org.example.entity.Book;
 
 import java.util.List;
 
@@ -20,7 +19,7 @@ public class PersonDto {
     private int age;
 
     @Schema(hidden = true)
-    private List<Book> books;
+    private List<BookDto> books;
 
     public String getName() {
         return name;
@@ -38,11 +37,11 @@ public class PersonDto {
         this.age = age;
     }
 
-    public List<Book> getBooks() {
+    public List<BookDto> getBooks() {
         return books;
     }
 
-    public void setBooks(List<Book> books) {
+    public void setBooks(List<BookDto> books) {
         this.books = books;
     }
 }
