@@ -1,9 +1,9 @@
-package org.example.dto;
+package org.example.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
-import org.example.model.Person;
+import org.example.entity.Person;
 
 import java.util.Date;
 

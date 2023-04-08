@@ -1,7 +1,7 @@
 package org.example.mapper;
 
-import org.example.dto.BookDto;
-import org.example.model.Book;
+import org.example.entity.Book;
+import org.example.model.BookDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

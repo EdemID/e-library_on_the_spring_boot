@@ -1,7 +1,7 @@
 package org.example.controller;
 
 import jakarta.validation.Valid;
-import org.example.dto.BookDto;
+import org.example.model.BookDto;
 import org.example.serviece.BookService;
 import org.example.serviece.PeopleService;
 import org.springframework.web.bind.annotation.*;

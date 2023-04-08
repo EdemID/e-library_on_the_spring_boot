@@ -1,10 +1,10 @@
 package org.example.serviece;
 
-import org.example.dto.PersonDto;
+import org.example.entity.Book;
+import org.example.entity.Person;
 import org.example.exception.PersonNotFoundException;
 import org.example.mapper.PersonMapper;
-import org.example.model.Book;
-import org.example.model.Person;
+import org.example.model.PersonDto;
 import org.example.repository.PersonRepository;
 import org.example.util.Examine;
 import org.hibernate.Hibernate;

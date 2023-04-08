@@ -1,10 +1,10 @@
 package org.example.serviece;
 
-import org.example.dto.BookDto;
+import org.example.entity.Book;
 import org.example.exception.BookNotFoundException;
 import org.example.exception.IncorrectParametersException;
 import org.example.mapper.BookMapper;
-import org.example.model.Book;
+import org.example.model.BookDto;
 import org.example.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;

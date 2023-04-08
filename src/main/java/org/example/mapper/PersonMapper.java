@@ -1,7 +1,7 @@
 package org.example.mapper;
 
-import org.example.dto.PersonDto;
-import org.example.model.Person;
+import org.example.entity.Person;
+import org.example.model.PersonDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

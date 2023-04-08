@@ -1,11 +1,11 @@
-package org.example.dto;
+package org.example.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-import org.example.model.Book;
+import org.example.entity.Book;
 
 import java.util.List;
 

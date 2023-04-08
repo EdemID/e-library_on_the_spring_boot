@@ -1,6 +1,6 @@
 package org.example.util;
 
-import org.example.model.Book;
+import org.example.entity.Book;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
