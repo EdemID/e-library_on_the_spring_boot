@@ -1,4 +1,4 @@
-package org.example.controller;
+package org.example.api.model.exception;
 
 import org.example.exception.BookNotFoundException;
 import org.example.exception.PersonNotFoundException;
@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ExceptionController {
 
     @ExceptionHandler(value = PSQLException.class)
-    public ResponseEntity<Response> handleDeleteEntityException(PSQLException e) {
+    public ResponseEntity<Response> handleNotFoundEntityException(PSQLException e) {
         Response response = new Response(e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(value = {BookNotFoundException.class, PersonNotFoundException.class})
-    public ResponseEntity<Response> handleDeleteEntityException(RuntimeException e) {
+    public ResponseEntity<Response> handleNotFoundEntityException(RuntimeException e) {
         Response response = new Response(e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }

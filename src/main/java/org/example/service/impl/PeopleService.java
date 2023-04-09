@@ -1,20 +1,19 @@
-package org.example.serviece;
+package org.example.service.impl;
 
 import org.example.entity.Person;
 import org.example.exception.PersonNotFoundException;
 import org.example.mapper.PersonMapper;
 import org.example.model.PersonDto;
 import org.example.repository.PersonRepository;
-import org.hibernate.Hibernate;
+import org.example.service.BusinessContract;
+import org.example.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-@Transactional(readOnly = true)
-public class PeopleService {
+public class PeopleService implements PersonService, BusinessContract<PersonDto, Integer> {
 
     private final PersonRepository repository;
     private final PersonMapper mapper;
@@ -29,35 +28,32 @@ public class PeopleService {
         return mapper.toDtoList(repository.findAll());
     }
 
-    public Person findById(final int id) {
-        return repository.findById(id).orElseThrow(() -> new PersonNotFoundException(id));
+    @Override
+    public PersonDto findById(final Integer id) {
+        return mapper.toDto(
+                repository.findById(id)
+                .orElseThrow(() -> new PersonNotFoundException(id))
+        );
     }
 
-    public PersonDto findByIdWithBooks(final int id) {
-        Person entity = findById(id);
-        Hibernate.initialize(entity.getBooks()); // для подзагрузки книг. необязательно,
-        // т.к. книги точно будут подзагружены - получение person и books в одной транзакции
-        return mapper.toDto(entity);
-    }
-
-    @Transactional
-    public int save(final PersonDto person) {
+    @Override
+    public Integer save(final PersonDto person) {
         Person entity = mapper.toEntity(person);
         repository.save(entity);
 
         return entity.getId();
     }
 
-    @Transactional
-    public PersonDto update(final int id, final PersonDto updatedPerson) {
+    @Override
+    public PersonDto update(final Integer id, final PersonDto updatedPerson) {
         Person personToBeUpdated = mapper.toEntity(updatedPerson);
         personToBeUpdated.setId(id);
 
         return mapper.toDto(repository.save(personToBeUpdated));
     }
 
-    @Transactional
-    public void delete(final int id) {
+    @Override
+    public void delete(final Integer id) {
         repository.deleteById(id);
     }
 

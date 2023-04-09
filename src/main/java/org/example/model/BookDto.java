@@ -1,9 +1,9 @@
 package org.example.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
-import org.example.entity.Person;
 
 import java.util.Date;
 
@@ -22,7 +22,8 @@ public class BookDto {
     private Date takenAt;
 
     @Schema(hidden = true)
-    private Person owner;
+    @JsonBackReference
+    private PersonDto owner;
 
     private boolean expired;
 
@@ -58,11 +59,11 @@ public class BookDto {
         this.takenAt = takenAt;
     }
 
-    public Person getOwner() {
+    public PersonDto getOwner() {
         return owner;
     }
 
-    public void setOwner(Person owner) {
+    public void setOwner(PersonDto owner) {
         this.owner = owner;
     }
 

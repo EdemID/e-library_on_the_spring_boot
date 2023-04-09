@@ -1,6 +1,7 @@
 package org.example.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
@@ -19,6 +20,7 @@ public class PersonDto {
     private int age;
 
     @Schema(hidden = true)
+    @JsonManagedReference
     private List<BookDto> books;
 
     public String getName() {

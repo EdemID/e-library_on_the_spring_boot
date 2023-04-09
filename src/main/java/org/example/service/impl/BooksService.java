@@ -1,4 +1,4 @@
-package org.example.serviece;
+package org.example.service.impl;
 
 import org.example.entity.Book;
 import org.example.exception.BookNotFoundException;
@@ -6,26 +6,26 @@ import org.example.exception.IncorrectParametersException;
 import org.example.mapper.BookMapper;
 import org.example.model.BookDto;
 import org.example.repository.BookRepository;
+import org.example.service.BookService;
+import org.example.service.BusinessContract;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional(readOnly = true)
-public class BookService {
+public class BooksService implements BookService, BusinessContract<BookDto, Integer> {
 
     private final PeopleService peopleService;
     private final BookRepository repository;
     private final BookMapper bookMapper;
 
     @Autowired
-    public BookService(PeopleService peopleService, final BookRepository repository, final BookMapper bookMapper) {
+    public BooksService(PeopleService peopleService, final BookRepository repository, final BookMapper bookMapper) {
         this.peopleService = peopleService;
         this.repository = repository;
         this.bookMapper = bookMapper;
@@ -62,35 +62,6 @@ public class BookService {
         }
     }
 
-    public BookDto findById(final int id) {
-        Optional<Book> foundBook = repository.findById(id);
-        return bookMapper.toDto(foundBook.orElseThrow(() -> new BookNotFoundException(id)));
-    }
-
-    @Transactional
-    public int save(final BookDto book) {
-        Book entity = bookMapper.toEntity(book);
-        repository.save(entity);
-        // по сути id у entity == 0, однако getId() вернет id, так как запрос его в рамках транзакции
-        return entity.getId();
-    }
-
-    @Transactional
-    public BookDto update(final int id, final BookDto updatedBook) {
-        Book bookToBeUpdated = bookMapper.toEntity(updatedBook);
-
-        bookToBeUpdated.setId(id);
-        bookToBeUpdated.setOwner(bookToBeUpdated.getOwner()); // чтобы не терялась связь при обновлении
-
-        return bookMapper.toDto(repository.save(bookToBeUpdated));
-    }
-
-    @Transactional
-    public void delete(final int id) {
-        repository.deleteById(id);
-    }
-
-    @Transactional
     public BookDto assign(final int bookId, final int personId) {
         BookDto dto = findById(bookId);
 
@@ -104,15 +75,43 @@ public class BookService {
         return dto;
     }
 
-    @Transactional
     public BookDto returnBook(final int id) {
         Book entity = repository.findById(id).orElseThrow(() -> new BookNotFoundException(id));
         entity.setOwner(null);
         entity.setTakenAt(null);
-        
+
         BookDto book = bookMapper.toDto(entity);
         book.setExpired(false);
         return book;
 //  save(entity); - не нужен, так как entity лежит в persistence context и Hibernate знает об этом entity, поэтому сам обновит сущность в бд при каждом вызове setter
+    }
+
+    @Override
+    public BookDto findById(final Integer id) {
+        Optional<Book> foundBook = repository.findById(id);
+        return bookMapper.toDto(foundBook.orElseThrow(() -> new BookNotFoundException(id)));
+    }
+
+    @Override
+    public Integer save(final BookDto book) {
+        Book entity = bookMapper.toEntity(book);
+        repository.save(entity);
+        // по сути id у entity == 0, однако getId() вернет id, так как запрос его в рамках транзакции
+        return entity.getId();
+    }
+
+    @Override
+    public BookDto update(final Integer id, final BookDto updatedBook) {
+        Book bookToBeUpdated = bookMapper.toEntity(updatedBook);
+
+        bookToBeUpdated.setId(id);
+        bookToBeUpdated.setOwner(bookToBeUpdated.getOwner()); // чтобы не терялась связь при обновлении
+
+        return bookMapper.toDto(repository.save(bookToBeUpdated));
+    }
+
+    @Override
+    public void delete(final Integer id) {
+        repository.deleteById(id);
     }
 }
