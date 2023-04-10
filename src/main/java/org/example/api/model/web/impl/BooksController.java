@@ -3,7 +3,6 @@ package org.example.api.model.web.impl;
 import org.example.api.model.web.BookController;
 import org.example.model.BookDto;
 import org.example.service.impl.BooksService;
-import org.example.service.impl.PeopleService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,11 +14,9 @@ import java.util.List;
 public class BooksController implements BookController {
 
     private final BooksService booksService;
-    private final PeopleService personService;
 
-    public BooksController(BooksService booksService, PeopleService personService) {
+    public BooksController(BooksService booksService) {
         this.booksService = booksService;
-        this.personService = personService;
     }
 
     public List<BookDto> index(

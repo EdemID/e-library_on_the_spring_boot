@@ -64,7 +64,6 @@ public class BooksService implements BookService, BusinessContract<BookDto, Inte
 
     public BookDto assign(final int bookId, final int personId) {
         BookDto dto = findById(bookId);
-
         dto.setOwner(peopleService.findById(personId));
         dto.setTakenAt(new Date());
 
@@ -82,8 +81,8 @@ public class BooksService implements BookService, BusinessContract<BookDto, Inte
 
         BookDto book = bookMapper.toDto(entity);
         book.setExpired(false);
+
         return book;
-//  save(entity); - не нужен, так как entity лежит в persistence context и Hibernate знает об этом entity, поэтому сам обновит сущность в бд при каждом вызове setter
     }
 
     @Override
@@ -96,16 +95,15 @@ public class BooksService implements BookService, BusinessContract<BookDto, Inte
     public Integer save(final BookDto book) {
         Book entity = bookMapper.toEntity(book);
         repository.save(entity);
-        // по сути id у entity == 0, однако getId() вернет id, так как запрос его в рамках транзакции
+
         return entity.getId();
     }
 
     @Override
     public BookDto update(final Integer id, final BookDto updatedBook) {
         Book bookToBeUpdated = bookMapper.toEntity(updatedBook);
-
         bookToBeUpdated.setId(id);
-        bookToBeUpdated.setOwner(bookToBeUpdated.getOwner()); // чтобы не терялась связь при обновлении
+        bookToBeUpdated.setOwner(bookToBeUpdated.getOwner());
 
         return bookMapper.toDto(repository.save(bookToBeUpdated));
     }
