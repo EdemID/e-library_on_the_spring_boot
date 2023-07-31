@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    username: ''
-    url: ''
-    password: ''
+    username: ${POSTGRES_USER}
+    url: jdbc:postgresql://${DB_HOST:localhost}:5432/app
+    password: ${POSTGRES_PASSWORD}
   jpa:
     properties:
       hibernate:
@@ -16,4 +16,4 @@ spring:
       filter:
         enabled: 'true'
 server:
-  port: ''
+  port: '8080'
